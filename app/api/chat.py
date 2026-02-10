@@ -5,7 +5,8 @@ from sqlalchemy.orm import Session
 from app.core.auth import decode_access_token, security
 from app.schemas import ChatRequest, ChatResponse
 from app.db.database import SessionLocal
-from app.db.crud import get_employee_by_emp_id, apply_leave
+from app.db.crud import get_employee_by_emp_id
+from ..services.leave_service import apply_leave
 from app.core.date_parser import extract_dates
 
 # ✅ Router MUST be defined before usage
