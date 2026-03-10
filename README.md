@@ -1,5 +1,11 @@
 # Enterprise HR AI Platform
 
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![React](https://img.shields.io/badge/React-Frontend-blue)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 Enterprise HR AI Platform is a **full-stack HR management system** built with **FastAPI and React**.
 It provides secure authentication, role-based access control, leave management workflows, and an AI-powered HR assistant.
 
