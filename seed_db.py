@@ -1,31 +1,27 @@
-from app.db.database import SessionLocal
-from app.db.models import Employee
+from app.db.database import engine, SessionLocal
+from app.db.models import Base, Employee
+
+# 🔥 Force table creation
+Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
-employees = [
-    Employee(
-        employee_id="EMP001",
-        name="Ravi Kumar",
-        department="Engineering",
-        manager="Suresh Rao",
-        leave_balance=12
-    ),
-    Employee(
-        employee_id="EMP002",
-        name="Anita Sharma",
-        department="HR",
-        manager="Meena Iyer",
-        leave_balance=18
-    )
-]
-
-for emp in employees:
-    exists = db.query(Employee).filter(Employee.employee_id == emp.employee_id).first()
-    if not exists:
-        db.add(emp)
-
+# Clear old data (optional safety)
+db.query(Employee).delete()
 db.commit()
+
+# Seed employee
+employee = Employee(
+    employee_id="EMP001",
+    name="Shanmukh",
+    department="Engineering",
+    manager="Manager A",
+    leave_balance=12
+)
+
+db.add(employee)
+db.commit()
+
 db.close()
 
-print("✅ Database seeded successfully")
+print("Database seeded successfully.")

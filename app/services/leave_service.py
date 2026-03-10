@@ -1,19 +1,27 @@
-from datetime import date
-from sqlalchemy.orm import Session
+from app.domain.leave.policy import (
+    calculate_leave_days,
+    validate_leave_balance
+)
 
-from app.db.models import LeaveRequest, Employee
+def apply_leave(db, employee, start_date, end_date, leave_type="CL"):
+    holidays = set()  # later fetch from DB
 
+    days = calculate_leave_days(
+        start_date=start_date,
+        end_date=end_date,
+        holidays=holidays
+    )
 
-def apply_leave(
-    db: Session,
-    employee: Employee,
-    start_date: date,
-    end_date: date
-):
-    days = (end_date - start_date).days + 1
+    validate_leave_balance(
+        leave_type=leave_type,
+        requested_days=days,
+        balance=employee.leave_balance
+    )
 
-    if employee.leave_balance < days:
-        return None, "Insufficient leave balance."
+    employee.leave_balance -= days
+    db.commit()
+
+    return days
 
     leave = LeaveRequest(
         employee_id=employee.employee_id,

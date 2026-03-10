@@ -1,26 +1,37 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordRequestForm
+
+from app.db.database import get_db
+from app.db.models import Employee
 from app.core.auth import create_access_token
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-USERS = {
-    "emp001": {"role": "employee"},
-    "mgr001": {"role": "manager"},
-}
 
 @router.post("/login")
-def login(username: str):
-    user = USERS.get(username)
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    """
+    Login endpoint using OAuth2 form
+    """
 
-    token = create_access_token({
-        "sub": username,
-        "role": user["role"]
-    })
+    email = form_data.username
+    password = form_data.password
+
+    user = db.query(Employee).filter(Employee.email == email).first()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+
+    if user.password != password:
+        raise HTTPException(status_code=401, detail="Invalid password")
+
+    access_token = create_access_token(user)
 
     return {
-        "access_token": token,
-        "token_type": "bearer",
-        "role": user["role"]
+        "access_token": access_token,
+        "token_type": "bearer"
     }

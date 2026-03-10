@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://localhost:8000";
 
 export async function login(username) {
   const res = await fetch(`${API_BASE}/auth/login?username=${username}`, {
@@ -12,20 +12,14 @@ export async function login(username) {
   return res.json();
 }
 
-// 👇 ADD THIS FUNCTION (DO NOT REMOVE login)
-export async function sendMessage(message) {
-  const token = localStorage.getItem("token");
-
+export async function sendMessage(message, token) {
   const res = await fetch(`${API_BASE}/chat/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      employee_id: "EMP001",
-      message,
-    }),
+    body: JSON.stringify({ message }),
   });
 
   if (!res.ok) {
