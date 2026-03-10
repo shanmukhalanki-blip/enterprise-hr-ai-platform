@@ -63,6 +63,51 @@ This project demonstrates **production-style backend architecture**, API securit
                 +----------------------+
 
 ---
+## 🔄 Leave Management Workflow
+
+```text
+        +----------------------+
+        |      Employee        |
+        +----------+-----------+
+                   |
+                   | Submit Leave Request
+                   v
+        +----------------------+
+        |     FastAPI API      |
+        |   /leave/request     |
+        +----------+-----------+
+                   |
+                   | Store Request
+                   v
+        +----------------------+
+        |      Database        |
+        |   LeaveRequest Table |
+        +----------+-----------+
+                   |
+                   | Manager Reviews
+                   v
+        +----------------------+
+        |       Manager        |
+        +----------+-----------+
+                   |
+         +---------+----------+
+         |                    |
+         v                    v
++------------------+   +------------------+
+| Approve Request  |   | Reject Request   |
++------------------+   +------------------+
+         |                    |
+         +---------+----------+
+                   |
+                   v
+        +----------------------+
+        |  Leave Status Update |
+        +----------+-----------+
+                   |
+                   v
+        +----------------------+
+        | Employee Sees Result |
+        +----------------------+
 
 ## 📂 Project Structure
 
