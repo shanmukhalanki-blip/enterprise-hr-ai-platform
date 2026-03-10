@@ -260,3 +260,16 @@ This project demonstrates:
 ---
 
 ## 📄
+## 📸 Screenshots
+
+### API Documentation
+
+![Swagger](docs/swagger.png)
+
+### Leave Approval Workflow
+
+![Leave](docs/leave-workflow.png)
+
+### HR Chat Assistant
+
+![Chat](docs/chat.png)
