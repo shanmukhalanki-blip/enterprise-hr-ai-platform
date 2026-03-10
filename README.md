@@ -28,22 +28,39 @@ This project demonstrates **production-style backend architecture**, API securit
 
 ## 🏗 Architecture
 
-```
-React UI (Vite)
-      │
-      ▼
-FastAPI Backend
-      │
- ┌───────────────┬───────────────┬───────────────┐
- │ Auth Service  │ Leave Service │ Chat Service  │
- └───────────────┴───────────────┴───────────────┘
-      │
-      ▼
-SQLAlchemy ORM
-      │
-      ▼
-SQLite Database
-```
+```text
+                +----------------------+
+                |      React UI        |
+                |   (Vite Frontend)    |
+                +----------+-----------+
+                           |
+                           | HTTP API
+                           v
+                +----------------------+
+                |     FastAPI Server   |
+                |   (Backend API)      |
+                +----------+-----------+
+                           |
+        +------------------+------------------+
+        |                                     |
+        v                                     v
++-------------------+               +-------------------+
+|   Auth Service    |               |   Leave Service   |
+|  JWT Authentication|               | Leave Management  |
++-------------------+               +-------------------+
+        |                                     |
+        +------------------+------------------+
+                           |
+                           v
+                +----------------------+
+                |   SQLAlchemy ORM     |
+                +----------+-----------+
+                           |
+                           v
+                +----------------------+
+                |     SQLite DB        |
+                |   Employee / Leave   |
+                +----------------------+
 
 ---
 
